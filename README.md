@@ -1,2 +1,2 @@
 # UnityUNLV_OrbitDash
-Mobile game of destruction
+Mobile game of orbital destruction

@@ -7,7 +7,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OrbiterController : MonoBehaviour {
+public class OrbiterController : MonoBehaviour
+{
     public Transform orbitParent;
     public GameObject orbitingObject;
     public float orbitSpeed;
@@ -15,7 +16,8 @@ public class OrbiterController : MonoBehaviour {
     public bool orbitClockwise = true;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         if(orbitParent == null)
         {
             Debug.LogError("ERROR! orbitParent not set on " + this.gameObject.name);
@@ -27,7 +29,19 @@ public class OrbiterController : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        //if (Input.GetKey("a"))
+        //{
+        //    orbitalRadius += 1 * Time.deltaTime;
+        //}
+
+        if (Vector3.Distance(orbitingObject.transform.position, orbitParent.transform.position) != orbitalRadius)
+        {
+            float radiusDifference = orbitalRadius - Vector3.Distance(orbitingObject.transform.position, orbitParent.transform.position);
+            orbitingObject.transform.Translate(radiusDifference,0,0,Space.Self);
+        }
+
         orbitingObject.transform.RotateAround(orbitParent.position, Vector3.forward, orbitSpeed * Time.deltaTime);
 		
 	}

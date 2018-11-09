@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour {
             //Debug.Log("MOVE IT!");//print test
             distanceCovered = ((Time.time - moveStartTime) * moveSpeed);
             percentOfJourneyCompleted = distanceCovered / movementLength;
-            Debug.Log("StartPos = " + startPosition + " " + "targetMovePosition = " + targetMovePosition + " " + percentOfJourneyCompleted + "%");
+            //Debug.Log("StartPos = " + startPosition + " " + "targetMovePosition = " + targetMovePosition + " " + percentOfJourneyCompleted + "%");//print test
             this.transform.position = Vector3.Lerp(startPosition, targetMovePosition, percentOfJourneyCompleted);
 
         }

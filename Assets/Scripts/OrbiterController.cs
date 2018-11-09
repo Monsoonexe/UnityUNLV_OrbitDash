@@ -24,12 +24,7 @@ public class OrbiterController : MonoBehaviour
             //set at runtime
         }
 
-        if (orbitalRadius <= 0)//errors occur if orbital radius is below 0
-        {
-            orbitalRadius = 0.5f;
-        }
-        orbitingObject.transform.position = (orbitingObject.transform.position - orbitParent.position).normalized * orbitalRadius + orbitParent.position;
-		
+        AdjustOrbit();
 	}
 
     private void AdjustOrbit()

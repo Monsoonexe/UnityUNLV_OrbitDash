@@ -24,9 +24,28 @@ public class OrbiterController : MonoBehaviour
             //set at runtime
         }
 
+        if (orbitalRadius <= 0)//errors occur if orbital radius is below 0
+        {
+            orbitalRadius = 0.5f;
+        }
         orbitingObject.transform.position = (orbitingObject.transform.position - orbitParent.position).normalized * orbitalRadius + orbitParent.position;
 		
 	}
+
+    private void AdjustOrbit()
+    {
+        if (orbitalRadius <= 0)//errors occur if orbital radius is below 0
+        {
+            orbitalRadius = 0.5f;
+        }
+
+        if (Vector3.Distance(orbitingObject.transform.position, orbitParent.transform.position) != orbitalRadius)
+        {
+            float radiusDifference = orbitalRadius - Vector3.Distance(orbitingObject.transform.position, orbitParent.transform.position);
+            orbitingObject.transform.Translate(radiusDifference, 0, 0, Space.Self);
+        }
+
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -36,12 +55,7 @@ public class OrbiterController : MonoBehaviour
         //    orbitalRadius += 1 * Time.deltaTime;
         //}
 
-        if (Vector3.Distance(orbitingObject.transform.position, orbitParent.transform.position) != orbitalRadius)
-        {
-            float radiusDifference = orbitalRadius - Vector3.Distance(orbitingObject.transform.position, orbitParent.transform.position);
-            orbitingObject.transform.Translate(radiusDifference,0,0,Space.Self);
-        }
-
+        AdjustOrbit();
         orbitingObject.transform.RotateAround(orbitParent.position, Vector3.forward, orbitSpeed * Time.deltaTime);
 		
 	}
@@ -70,7 +84,7 @@ public class OrbiterController : MonoBehaviour
         Debug.Log("OnTriggerEnter()!!!!");
         if (col.gameObject.CompareTag("Enemy"))//if object's tag in list of objects can destroy....
         {
-            Destroy(col.gameObject);
+            Destroy(col.transform.parent.gameObject);//destroy the parent game object
         }
 
     }

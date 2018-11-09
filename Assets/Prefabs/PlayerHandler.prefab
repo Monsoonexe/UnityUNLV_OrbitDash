@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4926874416750962}
   - component: {fileID: 114768997941122876}
+  - component: {fileID: 54954478676741088}
   m_Layer: 0
   m_Name: Orbiter
   m_TagString: Untagged
@@ -54,7 +55,6 @@ GameObject:
   - component: {fileID: 33970923561245312}
   - component: {fileID: 23058123551997044}
   - component: {fileID: 135180891106948748}
-  - component: {fileID: 54870443028240350}
   m_Layer: 0
   m_Name: OrbiterModel
   m_TagString: Untagged
@@ -129,7 +129,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1797016550145856}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 0, z: 0}
+  m_LocalPosition: {x: 2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4926874416750962}
@@ -219,12 +219,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1797016550145856}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54870443028240350
+--- !u!54 &54954478676741088
 Rigidbody:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1797016550145856}
+  m_GameObject: {fileID: 1525001993119600}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -273,7 +273,7 @@ MonoBehaviour:
   orbitParent: {fileID: 4805692641261652}
   orbitingObject: {fileID: 1797016550145856}
   orbitSpeed: 100
-  orbitalRadius: 2
+  orbitalRadius: 1
   orbitClockwise: 1
 --- !u!135 &135180891106948748
 SphereCollider:

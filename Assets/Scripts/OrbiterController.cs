@@ -74,7 +74,7 @@ public class OrbiterController : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider col)//does not work! collider not on this object
+    private void OnTriggerEnter2D(Collider2D col)//does not work! collider not on this object
     {
         Debug.Log("OnTriggerEnter()!!!!");
         if (col.gameObject.CompareTag("Enemy"))//if object's tag in list of objects can destroy....

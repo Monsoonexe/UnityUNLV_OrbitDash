@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 1.0f;
+    public float dashSpeed = 1.0f;
     public OrbiterController orbiterController;
 
-    private Vector3 startPosition;
-    private Vector3 targetMovePosition;
-    private bool moving = false;
+    private Vector3 dashStartPosition;
+    private Vector3 dashEndPosition;
+    private bool isDashing = false;
 
     //these values used for linear interpolation (lerp)
-    private float moveStartTime;
+    private float dashStartTime;
     private float movementLength;
     private float distanceCovered;
     private float percentOfJourneyCompleted;
@@ -28,26 +28,26 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        /*if (Input.GetButtonDown("Jump") && !moving)
+        /*if (Input.GetButtonDown("Jump") && !isDashing)
         {
             //Debug.Log("Jump pressed!");//print test
             
             //for lerping
-            moving = true;
-            targetMovePosition = orbiterController.GetOrbiterLocalPosition();
-            startPosition = this.transform.position;
+            isDashing = true;
+            dashEndPosition = orbiterController.GetOrbiterLocalPosition();
+            dashStartPosition = this.transform.position;
             moveStartTime = Time.time;//start
-            movementLength = Vector3.Distance(targetMovePosition, startPosition);//how far do I have to move?
+            movementLength = Vector3.Distance(dashEndPosition, dashStartPosition);//how far do I have to move?
             //this.transform.position = orbiterController.GetOrbiterWorldPosition();//teleport broken
         }*/
 
-        if (moving)
+        if (isDashing)
         {
-            Move();
+            Dash();
         }
 
         //If key is held down, increase the radius of orbiter
-        if (Input.GetButton("Jump") && !moving)
+        if (Input.GetButton("Jump") && !isDashing)
         {
             orbiterController.changeRadius(true);
         }
@@ -57,26 +57,26 @@ public class PlayerController : MonoBehaviour
             orbiterController.changeRadius(false);
         }
 
-        if (Input.GetButtonUp("Jump") && !moving)
+        if (Input.GetButtonUp("Jump") && !isDashing)
         {
-            moving = true;
-            targetMovePosition = orbiterController.GetOrbiterLocalPosition();
-            startPosition = this.transform.position;
-            moveStartTime = Time.time;//start
-            movementLength = Vector3.Distance(targetMovePosition, startPosition);
+            isDashing = true;
+            dashEndPosition = orbiterController.GetOrbiterLocalPosition();
+            dashStartPosition = this.transform.position;
+            dashStartTime = Time.time;//start
+            movementLength = Vector3.Distance(dashEndPosition, dashStartPosition);
         }
 
     }
 
-    private void Move()
+    private void Dash()
     {
         //Debug.Log("MOVE IT!");//print test
-        distanceCovered = ((Time.time - moveStartTime) * moveSpeed);
+        distanceCovered = ((Time.time - dashStartTime) * dashSpeed);
         percentOfJourneyCompleted = distanceCovered / movementLength;
-        //Debug.Log("StartPos = " + startPosition + " " + "targetMovePosition = " + targetMovePosition + " " + percentOfJourneyCompleted + "%");//print test
-        this.transform.position = Vector3.Lerp(startPosition, targetMovePosition, percentOfJourneyCompleted);
-        if (percentOfJourneyCompleted >= .95f)
-            moving = false;
+        //Debug.Log("StartPos = " + dashStartPosition + " " + "dashEndPosition = " + dashEndPosition + " " + percentOfJourneyCompleted + "%");//print test
+        this.transform.position = Vector3.Lerp(dashStartPosition, dashEndPosition, percentOfJourneyCompleted);
+        if (percentOfJourneyCompleted >= .95)
+            isDashing = false;
     }
 
     public bool movingCheck()
@@ -84,6 +84,6 @@ public class PlayerController : MonoBehaviour
         //used for checking by destroy bullet script
         //if true, destroy
         //if false, game over 
-        return moving;
+        return isDashing;
     }
 }                           

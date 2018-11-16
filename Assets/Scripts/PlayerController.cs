@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
     private Vector3 startPosition;
     private Vector3 targetMovePosition;
     private bool moving = false;
-	private Rigidbody rb;
+	private Rigidbody2D rb;
 
     //these values used for linear interpolation (lerp)
     private float moveStartTime;
@@ -20,25 +20,11 @@ public class PlayerController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		rb = GetComponent<Rigidbody>();
+		rb = GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-        /*if (Input.GetButtonDown("Jump") && !moving)
-        {
-            //Debug.Log("Jump pressed!");//print test
-            
-            //for lerping
-            moving = true;
-            targetMovePosition = orbiterController.GetOrbiterLocalPosition();
-            startPosition = this.transform.position;
-            moveStartTime = Time.time;//start
-            movementLength = Vector3.Distance(targetMovePosition, startPosition);//how far do I have to move?
-
-            //this.transform.position = orbiterController.GetOrbiterWorldPosition();//teleport broken
-        }*/
 
         if (moving)
         {
@@ -73,8 +59,8 @@ public class PlayerController : MonoBehaviour {
         distanceCovered = ((Time.time - moveStartTime) * moveSpeed);
         percentOfJourneyCompleted = distanceCovered / movementLength;
         //Debug.Log("StartPos = " + startPosition + " " + "targetMovePosition = " + targetMovePosition + " " + percentOfJourneyCompleted + "%");//print test
-        Vector3 movement = Vector3.Lerp(startPosition, targetMovePosition, percentOfJourneyCompleted);
-        rb.AddForce(movement*speed);
+        //Vector3 movement = Vector3.Lerp(startPosition, targetMovePosition, percentOfJourneyCompleted);
+        rb.AddForce(targetMovePosition * moveSpeed);
 		if (percentOfJourneyCompleted >= .95f)
             moving = false;
     }

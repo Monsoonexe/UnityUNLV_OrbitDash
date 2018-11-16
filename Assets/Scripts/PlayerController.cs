@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetButtonDown("Jump") && !moving)
+        /*if (Input.GetButtonDown("Jump") && !moving)
         {
             //Debug.Log("Jump pressed!");//print test
             
@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour {
             movementLength = Vector3.Distance(targetMovePosition, startPosition);//how far do I have to move?
 
             //this.transform.position = orbiterController.GetOrbiterWorldPosition();//teleport broken
-        }
+        }*/
 
         if (moving)
         {

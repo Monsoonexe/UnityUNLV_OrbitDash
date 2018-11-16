@@ -12,6 +12,7 @@ public class OrbiterController : MonoBehaviour
     public Transform orbitParent;
     public GameObject orbitingObject;
     public float orbitSpeed;
+    public float previousSpeed;
     public float orbitalRadius = 2.0f;
     public bool orbitClockwise = true;
 
@@ -28,7 +29,7 @@ public class OrbiterController : MonoBehaviour
             //set at runtime
         }
 
-        AdjustOrbit();
+       AdjustOrbit();
 	}
 
     private void AdjustOrbit()
@@ -53,7 +54,16 @@ public class OrbiterController : MonoBehaviour
         //{
         //    orbitalRadius += 1 * Time.deltaTime;
         //}
-
+        
+        if (Input.GetButtonDown("Jump"))
+        {
+            previousSpeed = orbitSpeed;
+            orbitSpeed = 0;
+        }
+        else if (Input.GetButtonUp("Jump"))
+        {
+            orbitSpeed = previousSpeed;
+        }
         AdjustOrbit();
         orbitingObject.transform.RotateAround(orbitParent.position, Vector3.forward, orbitSpeed * Time.deltaTime);
 		
@@ -78,15 +88,15 @@ public class OrbiterController : MonoBehaviour
 
     }
 
-    //private void OnTriggerEnter2D(Collider2D col)//does not work! collider not on this object
-    //{
-    //    Debug.Log("OnTriggerEnter()!!!!");
-    //    if (col.gameObject.CompareTag("Enemy"))//if object's tag in list of objects can destroy....
-    //    {
-    //        Destroy(col.transform.parent.gameObject);//destroy the parent game object
-    //    }
+    private void OnTriggerEnter2D(Collider2D col)//does not work! collider not on this object
+    {
+        Debug.Log("OnTriggerEnter()!!!!");
+        if (col.gameObject.CompareTag("Enemy"))//if object's tag in list of objects can destroy....
+        {
+            Destroy(col.transform.parent.gameObject);//destroy the parent game object
+        }
 
-    //}
+    }
 
     public void changeRadius(bool x)
     {
@@ -97,7 +107,7 @@ public class OrbiterController : MonoBehaviour
 
         if(orbitalRadius < maxRadius && x == true)
         {
-            orbitalRadius += changeRate;
+            orbitalRadius = Mathf.Pow(orbitalRadius, 1 + changeRate);
         }
 
         if(orbitalRadius > minRadius && x == false)

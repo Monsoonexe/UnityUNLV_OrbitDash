@@ -2,32 +2,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour { 
-    public float dashSpeed = 100.0f; //how quickly the player object moves towards the orbiter
-    public OrbiterController orbiterController; //the script 
+public class PlayerController : MonoBehaviour
+{
+    public float moveSpeed = 1.0f;
+    public OrbiterController orbiterController;
 
-    private Vector3 dashStartPosition; //where the playerModel is when the dash began
-    private Vector3 dashEndPosition;//the endpoing of the dash
-    private bool isDashing = false;//is currently dashing?
-    private bool dashCooledDown = true; //time when the dash began
-    [SerializeField] private float dashCooldownTime = 0.5f; //[attribute] means this private variable will be visible in Inspector
+    private Vector3 startPosition;
+    private Vector3 targetMovePosition;
+    private bool moving = false;
 
-	private Rigidbody2D rb;//
+    //these values used for linear interpolation (lerp)
+    private float moveStartTime;
+    private float movementLength;
+    private float distanceCovered;
+    private float percentOfJourneyCompleted;
+
 
     // Use this for initialization
-    void Start () {
-		rb = GetComponent<Rigidbody2D>();//get a reference to the rb
-        dashCooledDown = true;//player should be able to dash right away
-        isDashing = false;//player does not start game in dashing state
+    void Start()
+    {
+
     }
-	
-	// Update is called once per frame
-	void Update () {
-        
-        //If key is held down, increase the radius of orbiter
-        if(Input.GetButton("Jump") && !isDashing && dashCooledDown) //if the button is being held down
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        /*if (Input.GetButtonDown("Jump") && !moving)
         {
-            orbiterController.changeRadius(true);//charge the radius and increase size of orbit
+            //Debug.Log("Jump pressed!");//print test
+            
+            //for lerping
+            moving = true;
+            targetMovePosition = orbiterController.GetOrbiterLocalPosition();
+            startPosition = this.transform.position;
+            moveStartTime = Time.time;//start
+            movementLength = Vector3.Distance(targetMovePosition, startPosition);//how far do I have to move?
+            //this.transform.position = orbiterController.GetOrbiterWorldPosition();//teleport broken
+        }*/
+
+        if (moving)
+        {
+            Move();
+        }
+
+        //If key is held down, increase the radius of orbiter
+        if (Input.GetButton("Jump") && !moving)
+        {
+            orbiterController.changeRadius(true);
         }
 
         else
@@ -35,37 +57,26 @@ public class PlayerController : MonoBehaviour {
             orbiterController.changeRadius(false);
         }
 
-        if(Input.GetButtonUp("Jump") && !isDashing && dashCooledDown)//if button has been released
+        if (Input.GetButtonUp("Jump") && !moving)
         {
-            isDashing = true;//playerHandler now dashing towards the orbiter
-            dashEndPosition = orbiterController.GetOrbiterLocalPosition();//get the endpoint of the dash
-            dashStartPosition = this.transform.position;//the startPoint is the position it was in when the button was pressed
+            moving = true;
+            targetMovePosition = orbiterController.GetOrbiterLocalPosition();
+            startPosition = this.transform.position;
+            moveStartTime = Time.time;//start
+            movementLength = Vector3.Distance(targetMovePosition, startPosition);
         }
+
     }
 
-    private void FixedUpdate()
+    private void Move()
     {
-        if (isDashing)
-        {
-            Dash();//do it
-            StartCoroutine(DashCooldown());//co routine runs separately, so this script continues on
-        }
-    }
-
-    //Summary: basic ability cooldown
-    //IEnumerator gives the function the ability to sleep, hang, halt, yield, wait
-    private IEnumerator DashCooldown()
-    {
-        yield return new WaitForSeconds(dashCooldownTime);//do nothing for this much time
-        dashCooledDown = true;//it is now cooled down
-    }
-
-    private void Dash()
-    {
-        //Debug.Log("Dashing through the snow....");//print test
-        
-        rb.AddForce(dashEndPosition * dashSpeed);//add force in the direction of the endpoint at this speed
-        isDashing = false; //immediately set to false so force is only applied once.
+        //Debug.Log("MOVE IT!");//print test
+        distanceCovered = ((Time.time - moveStartTime) * moveSpeed);
+        percentOfJourneyCompleted = distanceCovered / movementLength;
+        //Debug.Log("StartPos = " + startPosition + " " + "targetMovePosition = " + targetMovePosition + " " + percentOfJourneyCompleted + "%");//print test
+        this.transform.position = Vector3.Lerp(startPosition, targetMovePosition, percentOfJourneyCompleted);
+        if (percentOfJourneyCompleted >= .95f)
+            moving = false;
     }
 
     public bool movingCheck()
@@ -73,6 +84,6 @@ public class PlayerController : MonoBehaviour {
         //used for checking by destroy bullet script
         //if true, destroy
         //if false, game over 
-        return isDashing;
+        return moving;
     }
-}
+}                           

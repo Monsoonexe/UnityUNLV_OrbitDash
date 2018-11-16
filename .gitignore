@@ -6,3 +6,4 @@ UnityUNLV_OrbitDash.sln
 .vs
 obj
 Assembly-CSharp.csproj
+*.csproj

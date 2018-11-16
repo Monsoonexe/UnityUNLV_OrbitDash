@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3ffe95a94c3ef48b1607d73072e29a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 50
+  dashSpeed: 50
   orbiterController: {fileID: 114768997941122876}
 --- !u!114 &114768997941122876
 MonoBehaviour:
@@ -345,4 +345,4 @@ MonoBehaviour:
   orbitClockwise: 1
   minRadius: 2
   maxRadius: 4.5
-  changeRate: 0.025
+  orbitChangeRate: 1.03

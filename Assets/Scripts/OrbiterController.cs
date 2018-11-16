@@ -18,7 +18,7 @@ public class OrbiterController : MonoBehaviour
 
     public float minRadius = 2.0f;
     public float maxRadius = 4.5f;
-    public float changeRate = 0.01f;
+    public float orbitChargeRate = 1.03f;
 
 	// Use this for initialization
 	void Start ()
@@ -107,12 +107,12 @@ public class OrbiterController : MonoBehaviour
 
         if(orbitalRadius < maxRadius && x == true)
         {
-            orbitalRadius = Mathf.Pow(orbitalRadius, 1 + changeRate);
+            orbitalRadius = Mathf.Pow(orbitalRadius, orbitChargeRate);
         }
 
         if(orbitalRadius > minRadius && x == false)
         {
-            orbitalRadius -= changeRate;
+            orbitalRadius -= orbitChargeRate;
         }
 
 

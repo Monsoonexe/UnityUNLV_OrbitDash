@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DestroyBullet : MonoBehaviour {
 
-    private bool checkDestroy;
+    public bool checkDestroy;
     public GameObject playerObject;
     public PlayerController player;
 
@@ -16,14 +16,7 @@ public class DestroyBullet : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-        if(player.movingCheck())
-        {
-            checkDestroy = true;
-        }
-        else
-        {
-            checkDestroy = false;
-        }
+            checkDestroy = player.movingCheck();
        
 
 	}
@@ -38,5 +31,6 @@ public class DestroyBullet : MonoBehaviour {
                 Destroy(col.transform.parent.gameObject);//destroy the parent game object
             }
         }
+        //else if not moving and touch enemy, game over 
     }
 }

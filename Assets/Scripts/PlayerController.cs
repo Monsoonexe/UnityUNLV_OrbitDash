@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && !moving)
         {
             //Debug.Log("Jump pressed!");//print test
             
@@ -38,11 +38,31 @@ public class PlayerController : MonoBehaviour {
 
             //this.transform.position = orbiterController.GetOrbiterWorldPosition();//teleport broken
         }
+
         if (moving)
         {
             Move();
         }
         
+        //If key is held down, increase the radius of orbiter
+        if(Input.GetButton("Jump") && !moving)
+        {
+            orbiterController.changeRadius(true);
+        }
+
+        else
+        {
+            orbiterController.changeRadius(false);
+        }
+
+        if(Input.GetButtonUp("Jump") && !moving)
+        {
+            moving = true;
+            targetMovePosition = orbiterController.GetOrbiterLocalPosition();
+            startPosition = this.transform.position;
+            moveStartTime = Time.time;//start
+            movementLength = Vector3.Distance(targetMovePosition, startPosition);
+        }
 
     }
 
@@ -53,11 +73,15 @@ public class PlayerController : MonoBehaviour {
         percentOfJourneyCompleted = distanceCovered / movementLength;
         //Debug.Log("StartPos = " + startPosition + " " + "targetMovePosition = " + targetMovePosition + " " + percentOfJourneyCompleted + "%");//print test
         this.transform.position = Vector3.Lerp(startPosition, targetMovePosition, percentOfJourneyCompleted);
-
+        if (percentOfJourneyCompleted >= .95f)
+            moving = false;
     }
 
     public bool movingCheck()
     {
+        //used for checking by destroy bullet script
+        //if true, destroy
+        //if false, game over 
         return moving;
     }
 }

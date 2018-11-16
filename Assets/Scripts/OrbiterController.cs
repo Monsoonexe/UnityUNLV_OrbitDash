@@ -15,6 +15,10 @@ public class OrbiterController : MonoBehaviour
     public float orbitalRadius = 2.0f;
     public bool orbitClockwise = true;
 
+    public float minRadius = 2.0f;
+    public float maxRadius = 4.5f;
+    public float changeRate = 0.01f;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -84,5 +88,24 @@ public class OrbiterController : MonoBehaviour
 
     //}
 
+    public void changeRadius(bool x)
+    {
+        //used by playercontroller
+        //change the radius by a step for every frame the key is held down
+        //reduce radius if not held down
+        //max, min, and step are public for now
+
+        if(orbitalRadius < maxRadius && x == true)
+        {
+            orbitalRadius += changeRate;
+        }
+
+        if(orbitalRadius > minRadius && x == false)
+        {
+            orbitalRadius -= changeRate;
+        }
+
+
+    }
     
 }

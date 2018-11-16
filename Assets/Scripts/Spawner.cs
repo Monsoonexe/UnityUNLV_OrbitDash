@@ -72,7 +72,7 @@ public class Spawner : MonoBehaviour
             objectsAlive = CountAliveObjects(listOfExistingObjects);//how many alive objects are there in this list?
             if (objectsAlive < maxThingsAliveAtOneTime)//do we need to spawn more things?
             {
-                Debug.Log("Spawning!!!");
+                //Debug.Log("Spawning!!!");
                 parent = spawnPoints[(int)Random.Range(0, spawnPoints.Length)];//pick a random parent
                 for(int i = 0; i < listOfExistingObjects.Length; ++i)//look through each element of the list until you find an empty spot
                 {

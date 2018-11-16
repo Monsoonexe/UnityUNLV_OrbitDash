@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour { 
-    public float moveSpeed = 1.0f;
+    public float moveSpeed = 100.0f;
     public OrbiterController orbiterController;
 
     private Vector3 startPosition;
     private Vector3 targetMovePosition;
     private bool moving = false;
+	private Rigidbody rb;
 
     //these values used for linear interpolation (lerp)
     private float moveStartTime;
@@ -19,7 +20,7 @@ public class PlayerController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+		rb = GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
@@ -72,8 +73,9 @@ public class PlayerController : MonoBehaviour {
         distanceCovered = ((Time.time - moveStartTime) * moveSpeed);
         percentOfJourneyCompleted = distanceCovered / movementLength;
         //Debug.Log("StartPos = " + startPosition + " " + "targetMovePosition = " + targetMovePosition + " " + percentOfJourneyCompleted + "%");//print test
-        this.transform.position = Vector3.Lerp(startPosition, targetMovePosition, percentOfJourneyCompleted);
-        if (percentOfJourneyCompleted >= .95f)
+        Vector3 movement = Vector3.Lerp(startPosition, targetMovePosition, percentOfJourneyCompleted);
+        rb.AddForce(movement*speed);
+		if (percentOfJourneyCompleted >= .95f)
             moving = false;
     }
 

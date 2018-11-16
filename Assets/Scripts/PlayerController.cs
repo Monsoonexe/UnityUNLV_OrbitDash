@@ -11,13 +11,6 @@ public class PlayerController : MonoBehaviour {
     private bool moving = false;
 	private Rigidbody2D rb;
 
-    //these values used for linear interpolation (lerp)
-    private float moveStartTime;
-    private float movementLength;
-    private float distanceCovered;
-    private float percentOfJourneyCompleted;
-
-
     // Use this for initialization
     void Start () {
 		rb = GetComponent<Rigidbody2D>();
@@ -47,22 +40,16 @@ public class PlayerController : MonoBehaviour {
             moving = true;
             targetMovePosition = orbiterController.GetOrbiterLocalPosition();
             startPosition = this.transform.position;
-            moveStartTime = Time.time;//start
-            movementLength = Vector3.Distance(targetMovePosition, startPosition);
         }
-
     }
 
     private void Move()
     {
         //Debug.Log("MOVE IT!");//print test
-        distanceCovered = ((Time.time - moveStartTime) * moveSpeed);
-        percentOfJourneyCompleted = distanceCovered / movementLength;
         //Debug.Log("StartPos = " + startPosition + " " + "targetMovePosition = " + targetMovePosition + " " + percentOfJourneyCompleted + "%");//print test
         //Vector3 movement = Vector3.Lerp(startPosition, targetMovePosition, percentOfJourneyCompleted);
         rb.AddForce(targetMovePosition * moveSpeed);
-		if (percentOfJourneyCompleted >= .95f)
-            moving = false;
+        moving = false;
     }
 
     public bool movingCheck()

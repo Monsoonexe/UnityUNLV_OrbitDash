@@ -55,4 +55,9 @@ public class PlayerController : MonoBehaviour {
         this.transform.position = Vector3.Lerp(startPosition, targetMovePosition, percentOfJourneyCompleted);
 
     }
+
+    public bool movingCheck()
+    {
+        return moving;
+    }
 }

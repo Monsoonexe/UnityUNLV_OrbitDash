@@ -228,12 +228,12 @@ Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1664616167647328}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3ffe95a94c3ef48b1607d73072e29a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 100
+  moveSpeed: 50
   orbiterController: {fileID: 114768997941122876}
 --- !u!114 &114768997941122876
 MonoBehaviour:
@@ -339,10 +339,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orbitParent: {fileID: 4805692641261652}
   orbitingObject: {fileID: 1797016550145856}
-  orbitSpeed: 100
+  orbitSpeed: 200
   previousSpeed: 0
   orbitalRadius: 2
   orbitClockwise: 1
   minRadius: 2
   maxRadius: 4.5
-  changeRate: 0.01
+  changeRate: 0.025

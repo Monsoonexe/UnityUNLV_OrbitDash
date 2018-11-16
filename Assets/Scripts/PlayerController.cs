@@ -9,15 +9,17 @@ public class PlayerController : MonoBehaviour {
     private Vector3 dashStartPosition; //where the playerModel is when the dash began
     private Vector3 dashEndPosition;//the endpoing of the dash
     private bool isDashing = false;//is currently dashing?
-    private bool dashCooledDown; //time when the dash began
-    [SerializeField] private float dashCooldownTime; //[attribute] means this private variable will be visible in Inspector
+    private bool dashCooledDown = true; //time when the dash began
+    [SerializeField] private float dashCooldownTime = 0.5f; //[attribute] means this private variable will be visible in Inspector
 
 	private Rigidbody2D rb;//
 
     // Use this for initialization
     void Start () {
 		rb = GetComponent<Rigidbody2D>();//get a reference to the rb
-	}
+        dashCooledDown = true;//player should be able to dash right away
+        isDashing = false;//player does not start game in dashing state
+    }
 	
 	// Update is called once per frame
 	void Update () {
